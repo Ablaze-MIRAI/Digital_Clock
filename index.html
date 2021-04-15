@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja" mode="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <title>Digital Clock</title>
+</head>
+<body>
+    <main>
+        <div class="clock">
+            <p class="time" id="time">--:--:--</p>
+            <p class="day" id="day">----/--/--</p>
+        </div>
+        <div class="nav">
+            <button id="info_open" class="btn btn-primary"><i class="bi bi-info-circle"></i></button>
+            <button id="full_screen" class="btn btn-primary"><i class="bi bi-arrows-fullscreen"></i></button>
+            <button id="mode_trigger" class="btn btn-primary"><i class="bi bi-brightness-high"></i></button>
+        </div>
+    </main>
+    <section id="info_modal" class="n">
+        <div id="mask"></div>
+        <div id="modal">
+            <p>普通のデジタル時計です、ダークモード・フルスクリーンに対応しています。ソースコードも公開しています。</p>
+            <p style="margin-top: 10px;"><a href="https://github.com/Ablaze-MIRAI/Digital_Clock">GitHub</i></a></p>
+            <button id="info_close" class="btn btn-primary">閉じる</button>
+        </div>
+    </section>
+    <style>
+        :root{
+            --main-color: #333333;
+            --text-color: #ffffff;
+        }
+
+        [mode="light"]{
+            --main-color: #ffffff;
+            --text-color: #333333;
+        }
+
+        head body{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            background-color: var(--main-color);
+        }
+
+        p{
+            color: var(--text-color);
+        }
+
+        main{
+            position: relative;
+            height: 100vh;
+        }
+
+        .clock{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            -webkit-transform: translateY(-50%) translateX(-50%);
+        }
+        
+        .time{
+            text-align: center;
+            font-size: 20vw;
+            margin: 0;
+        }
+
+        .day{
+            text-align: center;
+            font-size: 2vw;
+            margin: 0;
+        }
+
+        .nav{
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+        }
+
+        .btn{
+            margin-left: 5px;
+        }
+        
+        #mask {
+            background: rgba(0, 0, 0, 0.4);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 998;
+        }
+        
+        #modal{
+            background: var(--main-color);
+            color: var(--text-color);
+            max-width: 500px;
+            padding: 15px;
+            border-radius: 5px;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            z-index: 999;
+        }
+
+        #info_close{
+            width: 100%;
+        }
+
+        .n{
+            display: none;
+            transform: translate(0, -500px);
+        }
+    </style>
+    <script>
+        const full_screen = document.getElementById("full_screen");
+        const mode_trigger = document.getElementById("mode_trigger");
+        const time = document.getElementById("time");
+        const day = document.getElementById("day");
+        const info_modal = document.getElementById("info_modal");
+        const info_open = document.getElementById("info_open");
+        const info_close = document.getElementById("info_close");
+        let now_mode = true;
+
+        const Clock = () =>{
+            const now = new Date();
+            const hours = ("00" + now.getHours()).slice(-2);
+            const minutes = ("00" + now.getMinutes()).slice(-2);
+            const seconds = ("00" + now.getSeconds()).slice(-2);
+            const years = ("00" + now.getFullYear()).slice(-2);
+            const months = ("00" + now.getMonth()+1).slice(-2);
+            const dates = ("00" + now.getDate()).slice(-2);
+            const hms = `${hours}:${minutes}:${seconds}`
+            const ymd = `${years}/${months}/${dates}`;
+
+            time.innerText = hms;
+            day.innerText = ymd;
+        }
+
+        const Trigger_Full_Scrren = (elem) =>{
+            if(!document.fullscreenElement){
+                document.documentElement.requestFullscreen();
+                elem.innerHTML = `<i class="bi bi-fullscreen-exit"></i>`;
+            }else{
+                if(document.exitFullscreen){
+                    document.exitFullscreen();
+                    elem.innerHTML = `<i class="bi bi-fullscreen"></i>`;
+                }
+            }
+        }
+
+        const Trigger_theme_mode = () =>{
+            if(!now_mode){
+                document.documentElement.setAttribute("mode", "dark");
+                mode_trigger.innerHTML = `<i class="bi bi-brightness-high"></i>`;
+                now_mode = true;
+            }else{
+                document.documentElement.setAttribute("mode", "light");
+                mode_trigger.innerHTML = `<i class="bi bi-moon"></i>`;
+                now_mode = false;
+            }
+        }
+
+        const Info_modal_open = () =>{
+            info_modal.className = "";
+        }
+
+        const Info_modal_close = () =>{
+            info_modal.className = "n";
+        }
+
+        full_screen.onclick = () =>{Trigger_Full_Scrren(full_screen)};
+        mode_trigger.onclick = () =>{Trigger_theme_mode()};
+        info_open.onclick = () =>{Info_modal_open()};
+        info_close.onclick = () =>{Info_modal_close()};
+        setInterval("Clock()", 100);
+    </script>
+</body>
+</html>
