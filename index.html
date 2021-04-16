@@ -142,7 +142,7 @@
             const minutes = ("00" + now.getMinutes()).slice(-2);
             const seconds = ("00" + now.getSeconds()).slice(-2);
             const years = now.getFullYear();
-            const months = ("00" + now.getMonth()+1).slice(-2);
+            const months = now.getMonth()+1;
             const dates = ("00" + now.getDate()).slice(-2);
             const hms = `${hours}:${minutes}:${seconds}`
             const ymd = `${years}/${months}/${dates}`;
