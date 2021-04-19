@@ -32,6 +32,11 @@
         <div id="modal">
             <p>普通のデジタル時計です、ダークモード・フルスクリーンに対応しています。ソースコードも公開しています。</p>
             <p style="margin-top: 10px;"><a href="https://github.com/Ablaze-MIRAI/Digital_Clock">GitHub</i></a></p>
+            <p>
+                - v1.1更新情報 - <br/>
+                端末がスリープしないようにする機能を追加しました。
+                下のバーにある<i class="bi bi-unlock"></i>が<i class="bi bi-lock"></i>の時はスリープが無効化されます。
+            </p>
             <button id="info_close" class="btn btn-primary">閉じる</button>
         </div>
     </section>
@@ -151,7 +156,7 @@
             const hours = ("00" + now.getHours()).slice(-2);
             const minutes = ("00" + now.getMinutes()).slice(-2);
             const seconds = ("00" + now.getSeconds()).slice(-2);
-            const years = ("00" + now.getFullYear()).slice(-2);
+            const years = now.getFullYear();
             const months = now.getMonth()+1;
             const dates = ("00" + now.getDate()).slice(-2);
             const hms = `${hours}:${minutes}:${seconds}`
@@ -187,11 +192,11 @@
 
         const Trigger_sleep_lock = () =>{
             if(now_sleep_mode){
-                sleep_lock_btn.innerHTML = `<i class="bi bi-lock"></i>`;
+                sleep_lock_btn.innerHTML = `<i class="bi bi-unlock"></i>`;
                 nosleep.pause();
                 now_sleep_mode = false;
             }else{
-                sleep_lock_btn.innerHTML = `<i class="bi bi-unlock"></i>`;
+                sleep_lock_btn.innerHTML = `<i class="bi bi-lock"></i>`;
                 nosleep.play();
                 now_sleep_mode = true;
             }
