@@ -24,6 +24,7 @@
             <button id="info_open" class="btn btn-primary"><i class="bi bi-info-circle"></i></button>
             <button id="full_screen" class="btn btn-primary"><i class="bi bi-arrows-fullscreen"></i></button>
             <button id="mode_trigger" class="btn btn-primary"><i class="bi bi-brightness-high"></i></button>
+            <button id="sleep_lock" class="btn btn-primary"><i class="bi bi-lock"></i></button>
         </div>
     </main>
     <section id="info_modal" class="n">
@@ -33,6 +34,12 @@
             <p style="margin-top: 10px;"><a href="https://github.com/Ablaze-MIRAI/Digital_Clock">GitHub</i></a></p>
             <button id="info_close" class="btn btn-primary">閉じる</button>
         </div>
+    </section>
+    <section>
+        <video id="nosleep" style="position: fixed; top:0; left:0; height:0;" muted loop>
+            <source src="./nosleep.webm">
+            <source src="./nosleep.mp4">
+        </video>
     </section>
     <style>
         :root{
@@ -134,7 +141,10 @@
         const info_modal = document.getElementById("info_modal");
         const info_open = document.getElementById("info_open");
         const info_close = document.getElementById("info_close");
+        const sleep_lock_btn = document.getElementById("sleep_lock");
+        const nosleep = document.getElementById("nosleep");
         let now_mode = true;
+        let now_sleep_mode = false;
 
         const Clock = () =>{
             const now = new Date();
@@ -175,6 +185,18 @@
             }
         }
 
+        const Trigger_sleep_lock = () =>{
+            if(now_sleep_mode){
+                sleep_lock_btn.innerHTML = `<i class="bi bi-lock"></i>`;
+                nosleep.pause();
+                now_sleep_mode = false;
+            }else{
+                sleep_lock_btn.innerHTML = `<i class="bi bi-unlock"></i>`;
+                nosleep.play();
+                now_sleep_mode = true;
+            }
+        }
+
         const Info_modal_open = () =>{
             info_modal.className = "";
         }
@@ -183,10 +205,13 @@
             info_modal.className = "n";
         }
 
-        full_screen.onclick = () =>{Trigger_Full_Scrren(full_screen)};
-        mode_trigger.onclick = () =>{Trigger_theme_mode()};
-        info_open.onclick = () =>{Info_modal_open()};
-        info_close.onclick = () =>{Info_modal_close()};
+
+        full_screen.onclick = () =>{Trigger_Full_Scrren(full_screen);};
+        mode_trigger.onclick = () =>{Trigger_theme_mode();};
+        info_open.onclick = () =>{Info_modal_open();};
+        info_close.onclick = () =>{Info_modal_close();};
+        sleep_lock_btn.onclick = () =>{Trigger_sleep_lock();};
+        window.onload = () =>{nosleep.pause();};
         setInterval("Clock()", 100);
     </script>
 </body>
