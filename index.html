@@ -209,7 +209,13 @@
         const Info_modal_close = () =>{
             info_modal.className = "n";
         }
-
+        
+        window.onload = () =>{
+            nosleep.pause();
+            if(!document.documentElement.requestFullscreen){
+                full_screen.innerHTML = "";
+            }
+        }
 
         full_screen.onclick = () =>{Trigger_Full_Scrren(full_screen);};
         mode_trigger.onclick = () =>{Trigger_theme_mode();};
