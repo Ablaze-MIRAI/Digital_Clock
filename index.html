@@ -213,7 +213,8 @@
         window.onload = () =>{
             nosleep.pause();
             if(!document.documentElement.requestFullscreen){
-                full_screen.innerHTML = "";
+                full_screen.innerHTML = "フルスクリーン非対応";
+                full_screen.className = "btn btn-danger";
             }
         }
 
