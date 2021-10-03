@@ -1,0 +1,21 @@
+{
+  "name": "Simple Digital Clock",
+  "short_name": "Digital Clock",
+  "theme_color": "#0d6efd",
+  "background_color": "#333333",
+  "display": "standalone",
+  "scope": "/index.html",
+  "start_url": "/index.html",
+  "icons": [
+    {
+      "src": "./img/icon-x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/icon-x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}
